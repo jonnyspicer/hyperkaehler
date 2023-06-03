@@ -8,7 +8,7 @@ import "github.com/jonnyspicer/mango"
 
 func main() {
 	mc := mango.DefaultClientInstance()
-	ticker := time.NewTicker(24 * time.Second)
+	ticker := time.NewTicker(24 * time.Hour)
 	defer ticker.Stop()
 
 	for range ticker.C {
