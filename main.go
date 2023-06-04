@@ -11,9 +11,14 @@ func main() {
 	ticker := time.NewTicker(24 * time.Hour)
 	defer ticker.Stop()
 
+	err := placeRandomBet(mc)
+	if err != nil {
+		fmt.Println("Error making API request:", err)
+	}
+
 	for range ticker.C {
 		fmt.Println(ticker.C)
-		err := placeRandomBet(mc)
+		err = placeRandomBet(mc)
 		if err != nil {
 			fmt.Println("Error making API request:", err)
 			continue
