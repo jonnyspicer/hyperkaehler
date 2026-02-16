@@ -1,5 +1,5 @@
 # Use an official Go runtime as the base image
-FROM golang:1.20
+FROM golang:1.21
 
 # Set the working directory to /app
 WORKDIR /hyperkaehler
@@ -7,11 +7,8 @@ WORKDIR /hyperkaehler
 # Copy the current directory contents into the container at /app
 COPY . /hyperkaehler
 
-# Workaround for networks with the usual Go package proxy blocked
-# RUN go env -w GOPROXY=direct
-
-# Install the mango package
-RUN go get github.com/jonnyspicer/mango
+# Download dependencies
+RUN go mod download
 
 # Build the Go application
 RUN go build -o hyperkaehler
