@@ -1,0 +1,31 @@
+[Unit]
+Description=Hyperkaehler Manifold Markets Trading Bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ralph
+Group=ralph
+WorkingDirectory=/opt/apps/hyperkaehler
+ExecStart=/opt/apps/hyperkaehler/hyperkaehler
+EnvironmentFile=/opt/apps/hyperkaehler/.env
+Restart=always
+RestartSec=30
+StartLimitIntervalSec=600
+StartLimitBurst=10
+
+# Logging — stdout/stderr go to journald
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=hyperkaehler
+
+# Hardening
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/opt/apps/hyperkaehler/data
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

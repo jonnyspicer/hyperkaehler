@@ -1,0 +1,50 @@
+[general]
+db_path = "./data/hyperkaehler.db"
+log_level = "info"
+
+[schedule]
+scan_interval = "5m"
+snapshot_interval = "15m"
+performance_interval = "1h"
+order_cleanup_interval = "10m"
+
+[risk]
+kelly_fraction = 0.25
+max_position_pct = 0.05
+max_market_exposure_pct = 0.10
+max_total_exposure = 0.50
+max_drawdown_pct = 0.20
+min_bet_amount = 1.0
+min_edge = 0.03
+
+[strategy.arbitrage]
+enabled = true
+min_liquidity = 50.0
+min_prob_sum_deviation = 0.10
+max_markets_per_cycle = 20
+max_close_days = 90
+
+[strategy.mispricing]
+enabled = false
+extreme_threshold_high = 0.95
+extreme_threshold_low = 0.05
+min_market_age_days = 7
+min_volume = 100.0
+mean_reversion_threshold = 0.15
+
+[strategy.timedecay]
+enabled = true
+min_time_elapsed_fraction = 0.50
+min_edge = 0.05
+min_volume = 50.0
+
+[strategy.marketmaking]
+enabled = false
+base_spread = 0.04
+min_liquidity = 500.0
+min_volume_24h = 50.0
+max_limit_order_capital_pct = 0.10
+
+[collector]
+max_markets_per_scan = 500
+min_liquidity = 20.0

@@ -1,22 +1,22 @@
-# Use an official Go runtime as the base image
-FROM golang:1.21
+# Build stage
+FROM golang:1.21 AS builder
 
-# Set the working directory to /app
-WORKDIR /hyperkaehler
-
-# Copy the current directory contents into the container at /app
-COPY . /hyperkaehler
-
-# Download dependencies
+WORKDIR /build
+COPY go.mod go.sum ./
 RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -o hyperkaehler ./cmd/hyperkaehler
 
-# Build the Go application
-RUN go build -o hyperkaehler
+# Run stage
+FROM debian:bookworm-slim
 
-# Expose port 8080 to the outside world
-EXPOSE 8080
-EXPOSE 80
-EXPOSE 443
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
 
-# Run the application when the container starts
+WORKDIR /app
+COPY --from=builder /build/hyperkaehler .
+COPY --from=builder /build/config.toml .
+COPY --from=builder /build/.env .
+
+RUN mkdir -p /app/data
+
 CMD ["./hyperkaehler"]

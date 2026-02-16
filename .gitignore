@@ -1,3 +1,5 @@
 .env
-.idea/*
-.idea
+.idea/
+/hyperkaehler
+data/
+logs/
